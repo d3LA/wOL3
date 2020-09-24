@@ -39,7 +39,7 @@ baseurl: "/wOL3" # the subpath of your site, e.g. "/blog".
 # Github and twitter are optional:
 minima:
   social_links:
-    twitter: d3LA
+    twitter: victorWorlanyo
     github: d3LA
 
 # Set this to true to get LaTeX math equation support
