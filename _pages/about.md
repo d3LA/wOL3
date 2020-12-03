@@ -9,4 +9,4 @@ permalink: /about/
 
 
 <!--[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.-->
-Compassion&Love; Truth&Conviction
+Love&Compassion; Truth&Conviction
