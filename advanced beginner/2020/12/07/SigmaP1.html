@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>tipToe Dive into Machine Learning | d3LA</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="tipToe Dive into Machine Learning" />
+<meta name="author" content="Victor Worlanyo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="implementing various methods and tools particularly notes from The Mechanics of Machine Learning](https://mlbook.explained.ai/) by Terrence Par and [Jeremy Howard." />
+<meta property="og:description" content="implementing various methods and tools particularly notes from The Mechanics of Machine Learning](https://mlbook.explained.ai/) by Terrence Par and [Jeremy Howard." />
+<link rel="canonical" href="https://d3la.github.io/wOL3/advanced%20beginner/2020/12/07/SigmaP1.html" />
+<meta property="og:url" content="https://d3la.github.io/wOL3/advanced%20beginner/2020/12/07/SigmaP1.html" />
+<meta property="og:site_name" content="d3LA" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-07T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://d3la.github.io/wOL3/advanced%20beginner/2020/12/07/SigmaP1.html","@type":"BlogPosting","headline":"tipToe Dive into Machine Learning","dateModified":"2020-12-07T00:00:00-06:00","datePublished":"2020-12-07T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://d3la.github.io/wOL3/advanced%20beginner/2020/12/07/SigmaP1.html"},"author":{"@type":"Person","name":"Victor Worlanyo"},"description":"implementing various methods and tools particularly notes from The Mechanics of Machine Learning](https://mlbook.explained.ai/) by Terrence Par and [Jeremy Howard.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/wOL3/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://d3la.github.io/wOL3/feed.xml" title="d3LA" /><link rel="shortcut icon" type="image/x-icon" href="/wOL3/images/favicon.ico"><link href="https://cdn.jsdelivr.net/npm/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/wOL3/">d3LA</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/wOL3/about/">About Me</a><a class="page-link" href="/wOL3/search/">Search</a><a class="page-link" href="/wOL3/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">tipToe Dive into Machine Learning</h1><p class="page-description">implementing various methods and tools particularly notes from <a href='https://www.fast.ai/about/#jeremy'>The Mechanics of Machine Learning](https://mlbook.explained.ai/) by [Terrence Par](https://parrt.cs.usfca.edu/) and [Jeremy Howard</a>.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-12-07T00:00:00-06:00" itemprop="datePublished">
+        Dec 7, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Victor Worlanyo</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/wOL3/categories/#Advanced Beginner">Advanced Beginner</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/d3LA/wOL3/tree/master/_notebooks/2SigmaP1.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/wOL3/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/d3LA/wOL3/blob/master/_notebooks/2SigmaP1.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/wOL3/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Loading-data">Loading data </a></li>
+<li class="toc-entry toc-h1"><a href="#First,-a-shallow-analysis-of-our-data">First, a shallow analysis of our data </a></li>
+<li class="toc-entry toc-h1"><a href="#Model-Training">Model Training </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#procedure:">procedure: </a></li>
+<li class="toc-entry toc-h2"><a href="#how-well-does-the-model-fit-the-data?">how well does the model fit the data? </a></li>
+<li class="toc-entry toc-h2"><a href="#how-well-does-the-model-perform-on-unseen-data-(generalization)?">how well does the model perform on unseen data (generalization)? </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2SigmaP1.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Loading-data">
+<a class="anchor" href="#Loading-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loading data<a class="anchor-link" href="#Loading-data"> </a>
+</h2>
+<p>download and unzip these files into your working directory before running the following command <code>!python prep-rent.py</code>:</p>
+<ul>
+<li><a href="https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/data?select=train.json.zip">train.json</a></li>
+<li><a href="https://mlbook.explained.ai/data/prep-rent.py">prep-rent.py</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python prep-rent.py
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Created rent.csv
+Created rent-ideal.csv
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="First,-a-shallow-analysis-of-our-data">
+<a class="anchor" href="#First,-a-shallow-analysis-of-our-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>First, a shallow analysis of our data<a class="anchor-link" href="#First,-a-shallow-analysis-of-our-data"> </a>
+</h1>
+<p>this is a rental listing data from RentHop, a portforlio company of <a href="https://twosigmaventures.com/">Two Sigma Ventures</a>. the goal of this project is to predict the number of enquiries a future listing will get based on the date the new listing was created and other features such as location, number of bedrooms, bathrooms etc.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'rent.csv'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>transposing dataframe for better display</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(49352, 15)
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>bathrooms</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>bedrooms</th>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>building_id</th>
+      <td>8579a0b0d54db803821a35a4a615e97a</td>
+      <td>b8e75fc949a6cd8225b455648a951712</td>
+      <td>cd759a988b8f23924b5a2058d5ab2b49</td>
+      <td>53a5b119ba8f7b61d4e010512e0dfc85</td>
+      <td>bfb9405149bfff42a92980b594c28234</td>
+    </tr>
+    <tr>
+      <th>created</th>
+      <td>2016-06-16 05:55:27</td>
+      <td>2016-06-01 05:44:33</td>
+      <td>2016-06-14 15:19:59</td>
+      <td>2016-06-24 07:54:24</td>
+      <td>2016-06-28 03:50:23</td>
+    </tr>
+    <tr>
+      <th>description</th>
+      <td>Spacious 1 Bedroom 1 Bathroom in Williamsburg!...</td>
+      <td>BRAND NEW GUT RENOVATED TRUE 2 BEDROOMFind you...</td>
+      <td>**FLEX 2 BEDROOM WITH FULL PRESSURIZED WALL**L...</td>
+      <td>A Brand New 3 Bedroom 1.5 bath ApartmentEnjoy ...</td>
+      <td>Over-sized Studio w abundant closets. Availabl...</td>
+    </tr>
+    <tr>
+      <th>display_address</th>
+      <td>145 Borinquen Place</td>
+      <td>East 44th</td>
+      <td>East 56th Street</td>
+      <td>Metropolitan Avenue</td>
+      <td>East 34th Street</td>
+    </tr>
+    <tr>
+      <th>features</th>
+      <td>['Dining Room', 'Pre-War', 'Laundry in Buildin...</td>
+      <td>['Doorman', 'Elevator', 'Laundry in Building',...</td>
+      <td>['Doorman', 'Elevator', 'Laundry in Building',...</td>
+      <td>[]</td>
+      <td>['Doorman', 'Elevator', 'Fitness Center', 'Lau...</td>
+    </tr>
+    <tr>
+      <th>latitude</th>
+      <td>40.7108</td>
+      <td>40.7513</td>
+      <td>40.7575</td>
+      <td>40.7145</td>
+      <td>40.7439</td>
+    </tr>
+    <tr>
+      <th>listing_id</th>
+      <td>7170325</td>
+      <td>7092344</td>
+      <td>7158677</td>
+      <td>7211212</td>
+      <td>7225292</td>
+    </tr>
+    <tr>
+      <th>longitude</th>
+      <td>-73.9539</td>
+      <td>-73.9722</td>
+      <td>-73.9625</td>
+      <td>-73.9425</td>
+      <td>-73.9743</td>
+    </tr>
+    <tr>
+      <th>manager_id</th>
+      <td>a10db4590843d78c784171a107bdacb4</td>
+      <td>955db33477af4f40004820b4aed804a0</td>
+      <td>c8b10a317b766204f08e613cef4ce7a0</td>
+      <td>5ba989232d0489da1b5f2c45f6688adc</td>
+      <td>2c3b41f588fbb5234d8a1e885a436cfa</td>
+    </tr>
+    <tr>
+      <th>photos</th>
+      <td>['https://photos.renthop.com/2/7170325_3bb5ac8...</td>
+      <td>['https://photos.renthop.com/2/7092344_7663c19...</td>
+      <td>['https://photos.renthop.com/2/7158677_c897a13...</td>
+      <td>['https://photos.renthop.com/2/7211212_1ed4542...</td>
+      <td>['https://photos.renthop.com/2/7225292_901f198...</td>
+    </tr>
+    <tr>
+      <th>price</th>
+      <td>2400</td>
+      <td>3800</td>
+      <td>3495</td>
+      <td>3000</td>
+      <td>2795</td>
+    </tr>
+    <tr>
+      <th>street_address</th>
+      <td>145 Borinquen Place</td>
+      <td>230 East 44th</td>
+      <td>405 East 56th Street</td>
+      <td>792 Metropolitan Avenue</td>
+      <td>340 East 34th Street</td>
+    </tr>
+    <tr>
+      <th>interest_level</th>
+      <td>medium</td>
+      <td>low</td>
+      <td>medium</td>
+      <td>medium</td>
+      <td>low</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>next we look at a concise summary of the rental data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 49352 entries, 0 to 49351
+Data columns (total 15 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   bathrooms        49352 non-null  float64
+ 1   bedrooms         49352 non-null  int64  
+ 2   building_id      49352 non-null  object 
+ 3   created          49352 non-null  object 
+ 4   description      47906 non-null  object 
+ 5   display_address  49217 non-null  object 
+ 6   features         49352 non-null  object 
+ 7   latitude         49352 non-null  float64
+ 8   listing_id       49352 non-null  int64  
+ 9   longitude        49352 non-null  float64
+ 10  manager_id       49352 non-null  object 
+ 11  photos           49352 non-null  object 
+ 12  price            49352 non-null  int64  
+ 13  street_address   49342 non-null  object 
+ 14  interest_level   49352 non-null  object 
+dtypes: float64(3), int64(3), object(9)
+memory usage: 5.6+ MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>df.info</code> shows the data has a mix of numeric values <code>float64</code> <code>int64</code> and non-numeric values <code>object</code> \
+our focus will be on numeric data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_num</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">'bathrooms'</span><span class="p">,</span> <span class="s1">'bedrooms'</span><span class="p">,</span> <span class="s1">'longitude'</span><span class="p">,</span> <span class="s1">'latitude'</span><span class="p">,</span> <span class="s1">'price'</span><span class="p">]]</span> <span class="c1"># a list of features with numeric values</span>
+<span class="n">df_num</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bathrooms</th>
+      <th>bedrooms</th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>1</td>
+      <td>-73.9539</td>
+      <td>40.7108</td>
+      <td>2400</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>2</td>
+      <td>-73.9722</td>
+      <td>40.7513</td>
+      <td>3800</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>2</td>
+      <td>-73.9625</td>
+      <td>40.7575</td>
+      <td>3495</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.5</td>
+      <td>3</td>
+      <td>-73.9425</td>
+      <td>40.7145</td>
+      <td>3000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>0</td>
+      <td>-73.9743</td>
+      <td>40.7439</td>
+      <td>2795</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>checking for missing values in the data set. ml models cannot properly handle <code>NaN</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df_num</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>bathrooms    0
+bedrooms     0
+longitude    0
+latitude     0
+price        0
+dtype: int64
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Model-Training">
+<a class="anchor" href="#Model-Training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Training<a class="anchor-link" href="#Model-Training"> </a>
+</h1>
+<p>are there patterns that show a relationship between the features and the target?</p>
+<h2 id="procedure:">
+<a class="anchor" href="#procedure:" aria-hidden="true"><span class="octicon octicon-link"></span></a>procedure:<a class="anchor-link" href="#procedure:"> </a>
+</h2>
+<ul>
+<li>create design matrices: features (independent variables) vs target (dependent variable)</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X_train</span> <span class="o">=</span> <span class="n">df_num</span><span class="p">[[</span><span class="s1">'bathrooms'</span><span class="p">,</span><span class="s1">'bedrooms'</span><span class="p">,</span><span class="s1">'longitude'</span><span class="p">,</span><span class="s1">'latitude'</span><span class="p">]]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df_num</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>create model</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="c1"># number of trees in the forest = 100</span>
+                           <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># use all processors for training</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>fit model to training data</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>RandomForestRegressor(bootstrap=True, ccp_alpha=0.0, criterion='mse',
+                      max_depth=None, max_features='auto', max_leaf_nodes=None,
+                      max_samples=None, min_impurity_decrease=0.0,
+                      min_impurity_split=None, min_samples_leaf=1,
+                      min_samples_split=2, min_weight_fraction_leaf=0.0,
+                      n_estimators=100, n_jobs=-1, oob_score=False,
+                      random_state=None, verbose=0, warm_start=False)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="how-well-does-the-model-fit-the-data?">
+<a class="anchor" href="#how-well-does-the-model-fit-the-data?" aria-hidden="true"><span class="octicon octicon-link"></span></a>how well does the model fit the data?<a class="anchor-link" href="#how-well-does-the-model-fit-the-data?"> </a>
+</h2>
+<p>methods:</p>
+<ul>
+<li>using the $R^{2}$ error metric (coefficient of determination) to measure how well the model fits the data.</li>
+<li>using the mean absolute error (MAE) metric to compute difference between predicted and actual values (training error).</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r2</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.8756
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>a high $R^{2}$ score means the model has successfully captured some patterns in the data which indicates a relationship between the features and target. $R^{2}$ is only very useful when checking for the existence of patterns within data.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">e</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">y_train</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'$</span><span class="si">{</span><span class="n">e</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> average error; </span><span class="si">{</span><span class="n">ep</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% training error'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$286 average error; 7.47% training error
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>7.47% error is pretty great but this metric does not capture the overall validity of our model. to be more confient of our model, let's test for model generalization.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="how-well-does-the-model-perform-on-unseen-data-(generalization)?">
+<a class="anchor" href="#how-well-does-the-model-perform-on-unseen-data-(generalization)?" aria-hidden="true"><span class="octicon octicon-link"></span></a>how well does the model perform on unseen data (generalization)?<a class="anchor-link" href="#how-well-does-the-model-perform-on-unseen-data-(generalization)?"> </a>
+</h2>
+<p>does the model yield reasonable predictions?\
+checking for validation error using:</p>
+<ul>
+<li>hold out method</li>
+<li>out-of-bag score</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span>  <span class="n">df_num</span><span class="p">[[</span><span class="s1">'bathrooms'</span><span class="p">,</span><span class="s1">'bedrooms'</span><span class="p">,</span><span class="s1">'longitude'</span><span class="p">,</span><span class="s1">'latitude'</span><span class="p">]],</span> <span class="n">df_num</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span>
+
+<span class="c1"># holding out 20% of training data as validation/test data</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">test_size</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">validation_e</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'$</span><span class="si">{</span><span class="n">validation_e</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> average error; </span><span class="si">{</span><span class="n">validation_e</span><span class="o">*</span><span class="mf">100.0</span><span class="o">/</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% validation error'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'a </span><span class="si">{</span><span class="p">((</span><span class="n">e</span><span class="o">/</span><span class="n">validation_e</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% increase in error during validation makes for poor model generalization'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>$407 average error; 10.64% validation error
+a 70.21% increase in error during validation makes for poor model generalization
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>as expected model does well on training data than validation data. this also shows that our data might be very noisy or there are no patterns in the data (we already proved with a high $R^{2}$ that there exist some form of relationship between the feature variables and the target).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># number of trees in the forest = 100</span>
+                           <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>         <span class="c1"># use all processors for training</span>
+                           <span class="n">oob_score</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    <span class="c1"># get error estimate</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">df_num</span><span class="p">[[</span><span class="s1">'bathrooms'</span><span class="p">,</span><span class="s1">'bedrooms'</span><span class="p">,</span><span class="s1">'longitude'</span><span class="p">,</span><span class="s1">'latitude'</span><span class="p">]],</span> <span class="n">df_num</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span>                           
+
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">noisy_oob_r2</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">oob_score_</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'OOB score: </span><span class="si">{</span><span class="n">noisy_oob_r2</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>OOB score: -0.0460
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>OOB score is way below $R^{2}$ score, even though both are equivalent error metrics (coefficient of determination). OOB score is very terrible and our only conclusion will be that the data is pretty noisy, inconsistent or has some outliers. to prove that, we have to dig deeper into the data in the next post.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="d3LA/wOL3"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/wOL3/advanced%20beginner/2020/12/07/SigmaP1.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/wOL3/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/wOL3/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/wOL3/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>he is no fool to let go of what he cannot kepp to gain what he cannot lose.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/d3LA" title="d3LA"><svg class="svg-icon grey"><use xlink:href="/wOL3/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/victorWorlanyo" title="victorWorlanyo"><svg class="svg-icon grey"><use xlink:href="/wOL3/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
