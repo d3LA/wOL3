@@ -9,12 +9,12 @@ import csv
 import os
 
 
-if not os.path.isfile('..\data\train.json'):
+if not os.path.isfile('../data/train.json'):
     print("Can't find train.json file; must execute this program in same dir")
     print("To get train.json, go to https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/data")
     exit()
 
-df = pd.read_json('..\data\train.json')
+df = pd.read_json('../data/train.json')
 
 # Create csv from json
 df.to_csv("rent.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
