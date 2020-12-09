@@ -3,7 +3,7 @@
     
         "post0": {
             "title": "tipToe Dive into Machine Learning II",
-            "content": "Loading data . download and unzip these files into your working directory before running the following command !python prep-rent.py: . train.json | prep-rent.py | . !python ../data/prep-rent.py . Created rent.csv Created rent-ideal.csv . First, some exploratory data analysis (EDA) . generating some descriptive statistics. that is, a summary of the central tendency, measures of dispersion and shape of rental dataset&#39;s distribution. all of which is possible when the data contains no missing .",
+            "content": "Loading data . download and unzip these files into your working directory before running the following command !python prep-rent.py: . train.json | prep-rent.py | . !python ../data/prep-rent.py . Created rent.csv Created rent-ideal.csv . First, some exploratory data analysis (EDA) . generating some descriptive statistics. that is, a summary of the central tendency, measures of dispersion and shape of rental dataset&#39;s distribution. all of which is possible when the data contains no missing values NaN .",
             "url": "https://d3la.github.io/wOL3/advanced%20beginner/2020/12/09/2SigmaP2.html",
             "relUrl": "/advanced%20beginner/2020/12/09/2SigmaP2.html",
             "date": " • Dec 9, 2020"
